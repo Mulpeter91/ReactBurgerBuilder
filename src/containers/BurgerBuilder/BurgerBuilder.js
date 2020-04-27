@@ -23,7 +23,7 @@ class BurgerBuilder extends Component {
 
     state = {
         ingredients: null,
-        totalPrice: 2.00, 
+        totalPrice: 0, 
         purchaseable: false, 
         purchasing: false, 
         loading: false, 
@@ -98,32 +98,18 @@ class BurgerBuilder extends Component {
     }
 
     purchaseContinueHandler = () => {
-        // alert('you continue');
+        // alert('you continue');     
 
-        this.setState({loading: true});
-        const order = {
-            ingredients: this.state.ingredients, 
-            price: this.state.totalPrice, //obviously don't rely on the client side price
-            customer: {
-                name: 'Rob Mulpeter', 
-                address : {
-                    street: 'Test 1', 
-                    code: 'Code X', 
-                    country: 'France'
-                }, 
-                email: 'email@gmail.com'
-            }, 
-            deliveryOption: 'fastest'
+        const queryParams = [];
+        for (let i in this.state.ingredients){
+            queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
         }
-
-        //comment out this post request to see the spinner for longer
-        axios.post('/orders.json', order) //.json is needed to have firebase trigger correctly. Orders is a dynamic node
-            .then(response => {
-                this.setState({loading: false, purchasing: false});
-            })
-            .catch(error => {
-                this.setState({loading: false, purchasing: false});
-            });
+        queryParams.push('price=' + this.state.totalPrice);
+        const queryString = queryParams.join('&');
+        this.props.history.push({
+            pathname: '/checkout', 
+            search: '?' + queryString
+        });
     }
 
     render(){   

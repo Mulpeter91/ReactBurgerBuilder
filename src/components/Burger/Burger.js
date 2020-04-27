@@ -1,11 +1,10 @@
 import React from 'react';
 import Styles from './Burger.module.css';
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
+import { withRouter } from 'react-router-dom'; //this is higher order component that will pass down the router props
 
 const burger = props => {
-    
     console.log(props.ingredients);
-
     //We need to convert the ingredients OBJECT to an two length ARRAY of ingredient and quantity [key, value]  
     //First we can log the keys output to the console:  
     //console.log('[Burger.js] Keys Array: ' + Object.keys(props.ingredients));    
@@ -38,4 +37,4 @@ const burger = props => {
     );
 };
 
-export default burger;
+export default withRouter(burger);
