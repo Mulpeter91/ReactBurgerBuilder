@@ -4,6 +4,7 @@ import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
 import { withRouter } from 'react-router-dom'; //this is higher order component that will pass down the router props
 
 const burger = props => {
+    console.log('[Burger] tracking ingredients');
     console.log(props.ingredients);
     //We need to convert the ingredients OBJECT to an two length ARRAY of ingredient and quantity [key, value]  
     //First we can log the keys output to the console:  

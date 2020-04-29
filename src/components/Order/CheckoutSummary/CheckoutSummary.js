@@ -4,6 +4,8 @@ import Burger from '../../Burger/Burger';
 import styles from './CheckoutSummary.module.css';
 
 const checkoutSummary = (props) => {
+    console.log('[CheckoutSummary]');
+    console.log(props);
     return(
         <div className={styles.CheckoutSummary}>
             <h1>Are You Happy With Your Burger?</h1>
