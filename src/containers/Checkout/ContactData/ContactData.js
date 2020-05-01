@@ -5,6 +5,8 @@ import styles from './ContactData.module.css';
 import axios from '../../../axios-orders';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
+import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
+import * as actions from '../../../store/actions/index';
 
 class ContactData extends Component {    
     state = {
@@ -90,32 +92,34 @@ class ContactData extends Component {
                 isValid: true
             },
         },
-        formIsValid: false,
-        loading: false
+        formIsValid: false
+        //loading: false
     }
 
     orderHandler = (event) => {
         event.preventDefault() //stops the form loading the page by sending a request
-        this.setState({loading: true});
+        //this.setState({loading: true});
         const formData = {};
         for (let formElementIdentifier in this.state.orderForm){
             formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier];
-        }
+        };
         const order = {
             ingredients: this.props.ings, 
             price: this.props.price, //obviously don't rely on the client side price   
             orderData: formData
-        }
+        };
+        this.props.onOrderBurger(order);
 
         //comment out this post request to see the spinner for longer
-        axios.post('/orders.json', order) //.json is needed to have firebase trigger correctly. Orders is a dynamic node
-            .then(response => {
-                this.setState({loading: false });
-                this.props.history.push('/');
-            })
-            .catch(error => {
-                this.setState({loading: false });
-            });
+        //moved to action file
+        // axios.post('/orders.json', order) //.json is needed to have firebase trigger correctly. Orders is a dynamic node
+        //     .then(response => {
+        //         this.setState({loading: false });
+        //         this.props.history.push('/');
+        //     })
+        //     .catch(error => {
+        //         this.setState({loading: false });
+        //     });
     }
 
     checkValidity(value, rules){
@@ -150,7 +154,7 @@ class ContactData extends Component {
         };
 
         updatedFormElement.value = event.target.value;
-        console.log(updatedFormElement);
+        //console.log(updatedFormElement);
 
         updatedFormElement.isValid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation);
         updatedFormElement.touched = true;        
@@ -161,7 +165,7 @@ class ContactData extends Component {
         for(let inputIdentifier in updatedOrderForm){
             formIsValid = updatedOrderForm[inputIdentifier].isValid && formIsValid;
         }
-        console.log(formIsValid);
+        //console.log(formIsValid);
         this.setState({orderForm: updatedOrderForm, formIsValid: formIsValid})
     }
 
@@ -190,7 +194,7 @@ class ContactData extends Component {
                     <Button btnType="Success" disabled={!this.state.formIsValid}>Order</Button>
                 </form>     
             );
-        if(this.state.loading){
+        if(this.props.loading){
             form = <Spinner />
         }
         return (
@@ -204,9 +208,16 @@ class ContactData extends Component {
 
 const mapStateToProps = state => {
     return {
-        ings: state.ingredients,
-        price: state.totalPrice
-    }
-}
+        ings: state.burgerBuilder.ingredients,
+        price: state.burgerBuilder.totalPrice, 
+        loading: state.order.loading
+    };
+};
 
-export default connect(mapStateToProps)(ContactData);
+const mapDispatchToProps = dispatch => {
+    return {
+        onOrderBurger: (orderData) => dispatch(actions.purchaseBurger(orderData))
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios));

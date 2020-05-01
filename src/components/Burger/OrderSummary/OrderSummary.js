@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import Button from '../../UI/Button/Button';
 
-class OrderSummary extends Component {
+class Summary extends Component {
 
     //This could be a functional component, doesn't have to be a class
-    componentWillUpdate () {
-        console.log('[OrderSummary] will update');
-    } 
+    // componentWillUpdate () {
+    //     //console.log('[Summary] will update');
+    // } 
 
     render () {
         const ingredientSummary = Object.keys(this.props.ingredients)
@@ -22,7 +22,7 @@ class OrderSummary extends Component {
     return(
         <Aux>
             <h3>
-                Your Order
+                Your 
             </h3>
             <p>
                 A declicious burger with the following ingredients:
@@ -39,4 +39,4 @@ class OrderSummary extends Component {
     }
 }
 
-export default OrderSummary;
+export default Summary;
