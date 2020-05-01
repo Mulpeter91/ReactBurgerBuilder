@@ -8,7 +8,7 @@ import axios from '../../../src/axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import { connect } from 'react-redux';
-import * as actionTypes from '../../store/actions';
+import * as actionTypes from '../../store/actions/actionTypes';
 
 // const INGREDIENT_PRICES = {
 //     salad: 0.5, 
