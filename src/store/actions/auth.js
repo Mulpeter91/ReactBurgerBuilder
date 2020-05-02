@@ -22,6 +22,20 @@ export const authFail = (error) => {
     };
 };
 
+export const logout = () => {
+    return {
+        type: actionTypes.AUTH_LOGOUT
+    };
+};
+
+export const checkAuthTimeout = (expirationTime) => {
+    return dispatch => {
+        setTimeout(() => {
+            dispatch(logout());
+        }, expirationTime * 1000); //firebase sets timeout at 1 hours or 3600 seconds. setTimeout expects miliseconds.
+    };
+};
+
 export const auth = (email, password, isSignUp) => {
     return dispatch => {
         dispatch(authStart());
@@ -43,6 +57,7 @@ export const auth = (email, password, isSignUp) => {
                 // console.log('Id Token:', response.data.idToken);
                 // console.log('Local Id:', response.data.localId);
                 dispatch(authSuccess(response.data.idToken, response.data.localId));
+                dispatch(checkAuthTimeout(response.data.expiresIn));
             })
             .catch(err => {
                 console.log('An error has occrued on sign up call: ', err);
