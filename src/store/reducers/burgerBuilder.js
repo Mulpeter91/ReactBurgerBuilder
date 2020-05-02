@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
+import { updateObject } from '../utility';
 
 const initialState = {
     ingredients: null,
@@ -11,46 +12,102 @@ const INGREDIENT_PRICES = {
     cheese: 1.0, 
     meat: 2.0, 
     bacon: 1.5
-}
+};
+
+const addIngredient = ( state, action ) => {
+    const updatedIngredient = { [action.ingredientName]: state.ingredients[action.ingredientName] + 1 }
+    const updatedIngredients = updateObject( state.ingredients, updatedIngredient );
+    const updatedState = {
+        ingredients: updatedIngredients,
+        totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName]
+    }
+    return updateObject( state, updatedState );
+};
+
+const removeIngredient = (state, action) => {
+    const updatedIng = { [action.ingredientName]: state.ingredients[action.ingredientName] - 1 }
+    const updatedIngs = updateObject( state.ingredients, updatedIng );
+    const updatedSt = {
+        ingredients: updatedIngs,
+        totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName]
+    }
+    return updateObject( state, updatedSt );
+};
+
+const setIngredients = (state, action) => {
+    return updateObject( state, {
+        ingredients: {
+            salad: action.ingredients.salad,
+            bacon: action.ingredients.bacon,
+            cheese: action.ingredients.cheese,
+            meat: action.ingredients.meat
+        },
+        totalPrice: 4,
+        error: false
+    } );
+};
+
+const fetchIngredientsFailed = (state, action) => {
+    return updateObject( state, { error: true } );
+};
 
 const reducer = (state = initialState, action) => {
     switch(action.type) {
-        case actionTypes.ADD_INGREDIENT:
-            return {
-                ...state,
-                ingredients: {
-                    ...state.ingredients,
-                    [action.ingredientName]: state.ingredients[action.ingredientName] + 1
-                }, 
-                totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName]
-            };
-        case actionTypes.REMOVE_INGREDIENT:
-            return {
-                ...state,
-                ingredients: {
-                    ...state.ingredients,
-                    [action.ingredientName]: state.ingredients[action.ingredientName] - 1
-                },
-                totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName]
-            };
-        case actionTypes.SET_INGREDIENTS:
-            return {
-                ...state, 
-                //you could set ingredients: action.ingredients, but I want my own order of ingreidents displayed, not the firebase order
-                ingredients: {
-                    bacon: action.ingredients.bacon, 
-                    cheese: action.ingredients.cheese, 
-                    meat: action.ingredients.meat, 
-                    salad: action.ingredients.salad  
-                }, 
-                totalPrice: initialState.totalPrice,
-                error: false
-            };
-        case actionTypes.FETCH_INGREDIENTS_FAILED:
-            return {
-                ...state, 
-                error: true
-            };
+        case actionTypes.ADD_INGREDIENT: return addIngredient( state, action );
+
+            // const updatedIngredient = {[action.ingredientName]: state.ingredients[action.ingredientName] + 1};
+            // const updatedIngredients = updateObject(state.ingredients, updatedIngredient);
+            // const updatedState = {
+            //     ingredients: updatedIngredients, 
+            //     totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName]
+            // }
+            // return updateObject(state, updatedState);
+
+            // return {
+            //     ...state,
+            //     ingredients: {
+            //         ...state.ingredients,
+            //         [action.ingredientName]: state.ingredients[action.ingredientName] + 1
+            //     }, 
+            //     totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName]
+            // };
+        case actionTypes.REMOVE_INGREDIENT: return removeIngredient(state, action);
+
+            // const updatedIng = {[action.ingredientName]: state.ingredients[action.ingredientName] - 1};
+            // const updatedIngs = updateObject(state.ingredients, updatedIng);
+            // const updatedSt = {
+            //     ingredients: updatedIngs, 
+            //     totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName]
+            // }
+            // return updateObject(state, updatedSt);
+
+        case actionTypes.SET_INGREDIENTS: return setIngredients(state, action);    
+
+            // return updateObject(state, {
+            //     ingredients: {
+            //         bacon: action.ingredients.bacon, 
+            //         cheese: action.ingredients.cheese, 
+            //         meat: action.ingredients.meat, 
+            //         salad: action.ingredients.salad  
+            //     }, 
+            //     totalPrice: initialState.totalPrice,
+            //     error: false
+            // });
+
+            // return {
+            //     ...state, 
+            //     //you could set ingredients: action.ingredients, but I want my own order of ingreidents displayed, not the firebase order
+            //     ingredients: {
+            //         bacon: action.ingredients.bacon, 
+            //         cheese: action.ingredients.cheese, 
+            //         meat: action.ingredients.meat, 
+            //         salad: action.ingredients.salad  
+            //     }, 
+            //     totalPrice: initialState.totalPrice,
+            //     error: false
+            // };
+        case actionTypes.FETCH_INGREDIENTS_FAILED: return fetchIngredientsFailed(state, action);
+            // return updateObject(state, {error: true});
         default:
             return state;
     }
