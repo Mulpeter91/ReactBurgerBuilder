@@ -46,7 +46,7 @@ export const auth = (email, password, isSignUp) => {
             })
             .catch(err => {
                 console.log('An error has occrued on sign up call: ', err);
-                dispatch(authFail(err.response));
+                dispatch(authFail(err.response.data.error));
             });
     };
 };
