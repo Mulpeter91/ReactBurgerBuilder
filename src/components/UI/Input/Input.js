@@ -7,7 +7,7 @@ const input = props => {
     const inputClasses = [styles.InputElement];
     let validationErrorMessage = null;
 
-    if(props.inValid && props.shouldValidate && props.touched) {   
+    if(props.isValid && props.shouldValidate && props.touched) {   
         inputClasses.push(styles.Invalid); 
         //you could also add an error node to the orderForm objecsts in ContactData.js
         validationErrorMessage = <p className={styles.ValidationError}>Please enter a valid {props.elementConfig.placeholder} value</p>;     

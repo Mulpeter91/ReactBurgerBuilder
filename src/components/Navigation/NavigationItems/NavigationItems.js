@@ -10,6 +10,9 @@ const navigationItems = () => (
         <NavigationItem link="/Orders">
             Orders
         </NavigationItem>
+        <NavigationItem link="/Auth">
+            Authenticate
+        </NavigationItem>
     </ul>
 );
 

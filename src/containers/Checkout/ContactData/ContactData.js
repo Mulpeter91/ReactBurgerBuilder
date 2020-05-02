@@ -141,6 +141,16 @@ class ContactData extends Component {
             isValid = value.length <= rules.maxLength && isValid;
         }
 
+        if (rules.isEmail) {
+            const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+            isValid = pattern.test(value) && isValid
+        }
+
+        if (rules.isNumeric) {
+            const pattern = /^\d+$/;
+            isValid = pattern.test(value) && isValid
+        }
+
         return isValid;
     }
 
@@ -175,7 +185,7 @@ class ContactData extends Component {
             formElementArray.push({
                 id: key,
                 config: this.state.orderForm[key]
-            })
+            });
         }
 
         let form = (  
@@ -186,7 +196,7 @@ class ContactData extends Component {
                                 elementType={formElement.config.elementType} 
                                 elementConfig={formElement.config.elementConfig}
                                 value={formElement.config.value}
-                                inValid={!formElement.config.isValid}
+                                isValid={!formElement.config.isValid}
                                 shouldValidate={formElement.config.validation}
                                 touched={formElement.config.touched}
                                 changed={(event) => this.inputChangedHandler(event, formElement.id)}/>
