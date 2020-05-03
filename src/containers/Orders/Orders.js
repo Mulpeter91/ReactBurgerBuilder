@@ -5,6 +5,8 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../store/actions/index';
 import {connect} from 'react-redux';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import styles from './Orders.module.css';
+import YouTube from 'react-youtube';
 
 class Orders extends Component {
     // state = {
@@ -13,11 +15,23 @@ class Orders extends Component {
     // }
 
     componentDidMount() {
-         this.props.onFetchOrders(this.props.token);
+         this.props.onFetchOrders(this.props.token, this.props.userId);
     }
 
     render () {
+
+        const videoOptions = {
+            height: '390',
+            width: '640',
+            playerVars: {
+              // https://developers.google.com/youtube/player_parameters
+              autoplay: 1,
+            },
+          };
+
+
         let orders = <Spinner />;
+
         if(!this.props.loading){
             orders = this.props.orders.map(order => (
                     <Order 
@@ -27,8 +41,19 @@ class Orders extends Component {
                 )
             ) 
         }
+        if(orders.length <= 0){
+            orders = (
+                <div className={styles.Placeholder}>
+                    <h2>You still haven't ordered anything?!</h2>
+                    <h1 className={styles.Red}>GET EATING!</h1>
+                </div>
+            );
+        }
         return (
-            <div>
+            <div>    
+                <div style={{textAlign: 'center'}}>
+                    <YouTube videoId="rrlQhklDjIs" opts={videoOptions}/>
+                </div> 
                 {orders}
             </div>
         );
@@ -39,13 +64,14 @@ const mapStateToProps = state => {
     return {
         orders: state.order.orders, 
         loading: state.order.loading,
-        token: state.auth.token
+        token: state.auth.token,
+        userId: state.auth.userId
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchOrders: (token) => dispatch(actions.fetchOrders(token))
+        onFetchOrders: (token, userId) => dispatch(actions.fetchOrders(token, userId))
     };
 };
 

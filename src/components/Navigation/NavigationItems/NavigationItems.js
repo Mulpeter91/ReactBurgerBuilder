@@ -14,7 +14,7 @@ const navigationItems = (props) => (
             :  <NavigationItem link="/Logout">Logout</NavigationItem>
         }        
         <li className={external.NavigationItem}>
-            <a href="https://github.com/Mulpeter91/ReactBurgerBuilder" target="_blank">
+            <a href="https://github.com/Mulpeter91/ReactBurgerBuilder" target="_blank" rel="noopener noreferrer">
                 Source Code
             </a>
         </li>
