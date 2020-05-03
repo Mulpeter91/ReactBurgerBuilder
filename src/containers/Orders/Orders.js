@@ -44,8 +44,8 @@ class Orders extends Component {
         if(orders.length <= 0){
             orders = (
                 <div className={styles.Placeholder}>
-                    <h2>You still haven't ordered anything?!</h2>
-                    <h1 className={styles.Red}>GET EATING!</h1>
+                    <h2>You Still Haven't Ordered Anything Yet?!</h2>
+                    <h1 className={styles.Red}>PUT BURGERS IN YOUR BODY, NERD!</h1>
                 </div>
             );
         }

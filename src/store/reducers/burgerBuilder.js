@@ -40,10 +40,10 @@ const removeIngredient = (state, action) => {
 const setIngredients = (state, action) => {
     return updateObject( state, {
         ingredients: {
-            salad: action.ingredients.salad,
             bacon: action.ingredients.bacon,
             cheese: action.ingredients.cheese,
-            meat: action.ingredients.meat
+            meat: action.ingredients.meat,            
+            salad: action.ingredients.salad
         },
         totalPrice: 4,
         error: false,

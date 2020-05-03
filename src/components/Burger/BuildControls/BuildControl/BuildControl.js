@@ -10,7 +10,7 @@ const buildControl = props => (
             className={styles.Less} 
             onClick={props.removed} 
             disabled={props.disabled}>
-            Less
+            Nerd!
         </button>
         <button 
             className={styles.More} 

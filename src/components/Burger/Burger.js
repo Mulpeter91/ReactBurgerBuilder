@@ -2,6 +2,7 @@ import React from 'react';
 import Styles from './Burger.module.css';
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
 import { withRouter } from 'react-router-dom'; //this is higher order component that will pass down the router props
+import paunchLogo from '../../assets/Images/paunch-burger-logo.png';
 
 const burger = props => {
     // console.log('[Burger] tracking ingredients');
@@ -27,7 +28,12 @@ const burger = props => {
     //console.log(transformedIngredients); 
 
     if (transformedIngredients.length === 0){
-        transformedIngredients = <p className={Styles.red}>Please start adding ingredients!</p>
+        transformedIngredients = (
+            <div>
+                <img src={paunchLogo} style={{width: '20%'}} alt="Paunch Burger"/>
+                <p className={Styles.red}>ADD MORE FOOD, NERD!</p>
+            </div>
+        );  
     }
     return (
         <div className={Styles.Burger}>
