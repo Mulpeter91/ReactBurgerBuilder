@@ -36,8 +36,14 @@ const fetchOrdersSuccess = ( state, action ) => {
     return updateObject( state, {
         orders: action.orders,
         loading: false
-    } );
+    });
 };
+
+const clearOrders = ( state, action ) => {
+    return updateObject( state, {
+        orders: []
+    });
+}
 
 const fetchOrdersFail = ( state, action ) => {
     return updateObject( state, { loading: false } );
@@ -111,6 +117,7 @@ const reducer = (state = initialState, action) => {
             //     ...state, 
             //     loading: false
             // }
+        case actionTypes.AUTH_CLEAR_ORDERS: return clearOrders( state, action );
         default:
             return state;
     }

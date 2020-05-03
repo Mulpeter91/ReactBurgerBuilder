@@ -17,7 +17,7 @@ const sideDrawer = props => {
                 {/* you can pass dynamic style properties this way or you could wrap it in a div and apply the css to the div from the SideDrawer.module.css with .Logo class */}
                 <Logo height="11%" marginBottom="32px"/>
                 <nav>
-                    <NavigationItems />
+                    <NavigationItems isAuthenticated={props.isAuth}/>
                 </nav>
             </div>
         </Auxiliary>

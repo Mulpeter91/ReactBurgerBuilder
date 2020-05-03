@@ -108,7 +108,7 @@ class ContactData extends Component {
             price: this.props.price, //obviously don't rely on the client side price   
             orderData: formData
         };
-        this.props.onOrderBurger(order);
+        this.props.onOrderBurger(order, this.props.token);
 
         //comment out this post request to see the spinner for longer
         //moved to action file
@@ -220,13 +220,14 @@ const mapStateToProps = state => {
     return {
         ings: state.burgerBuilder.ingredients,
         price: state.burgerBuilder.totalPrice, 
-        loading: state.order.loading
+        loading: state.order.loading, 
+        token: state.auth.token
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onOrderBurger: (orderData) => dispatch(actions.purchaseBurger(orderData))
+        onOrderBurger: (orderData, token) => dispatch(actions.purchaseBurger(orderData, token))
     }
 };
 

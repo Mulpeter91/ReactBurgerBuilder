@@ -23,15 +23,29 @@ export const authFail = (error) => {
 };
 
 export const logout = () => {
+    return dispatch => {
+        dispatch(deleteUserIdToken());
+        dispatch(clearExistingOrdersArray());
+    }    
+}
+
+export const deleteUserIdToken = () => {
     return {
-        type: actionTypes.AUTH_LOGOUT
+        type: actionTypes.AUTH_DELETE_TOKEN
     };
 };
+
+export const clearExistingOrdersArray = () => {
+    return {
+        type: actionTypes.AUTH_CLEAR_ORDERS
+    }
+}
 
 export const checkAuthTimeout = (expirationTime) => {
     return dispatch => {
         setTimeout(() => {
             dispatch(logout());
+            dispatch(clearExistingOrdersArray());            
         }, expirationTime * 1000); //firebase sets timeout at 1 hours or 3600 seconds. setTimeout expects miliseconds.
     };
 };
