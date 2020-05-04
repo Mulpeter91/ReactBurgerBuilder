@@ -30,7 +30,7 @@ class Auth extends Component {
                 elementType: 'input',
                 elementConfig: {
                     type: 'password', 
-                    placeholder: 'Password'
+                    placeholder: 'Enter 6+ Character Password'
                 }, 
                 value: '',
                 validation: {

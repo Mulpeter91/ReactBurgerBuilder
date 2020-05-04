@@ -17,7 +17,8 @@ import * as actions from '../../store/actions/index'; //if you point at a folder
 //     bacon: 1.5
 // }
 
-class BurgerBuilder extends Component {
+//the export is to give the unit testing access
+export class BurgerBuilder extends Component {
     // constructor(){
     //     super(props);
     //     this.state = {...}
