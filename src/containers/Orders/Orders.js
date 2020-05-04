@@ -51,7 +51,7 @@ class Orders extends Component {
         }
         return (
             <div>    
-                <div style={{textAlign: 'center'}}>
+                <div style={{textAlign: 'center', backgroundColor: 'black'}}>
                     <YouTube videoId="rrlQhklDjIs" opts={videoOptions}/>
                 </div> 
                 {orders}
